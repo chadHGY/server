@@ -1,0 +1,28 @@
+version: "3.9"
+name: wandb
+services:
+  wandb:
+    image: "wandb/local:latest"
+    ports:
+      - 8888:8080
+    volumes:
+      # - type: bind
+      #   source: /mnt/hdd1/mlops/wandb
+      #   target: /vol
+      #   - /mnt/hdd1/mlops/wandb:/vol
+      - wandb:/vol
+    environment:
+      - WANDB_BASE_URL=${WANDB_BASE_URL}
+      # - WANDB_API_KEY=${WANDB_API_KEY}
+
+volumes:
+  wandb:
+    name: wandb
+    # driver: local-persist
+    # driver_opts:
+    #   mountpoint: ${WANDB_PREFIX}
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${WANDB_PREFIX}
